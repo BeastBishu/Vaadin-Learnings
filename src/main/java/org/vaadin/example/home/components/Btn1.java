@@ -1,4 +1,4 @@
-package org.vaadin.example;
+package org.vaadin.example.home.components;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -11,8 +11,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.vaadin.example.home.WebResponsive;
 
-@Route(value = "",layout = MenuDemo.class)
+@Route(value = "btn1",layout = WebResponsive.class)
 @PageTitle("Button 1 | Vaadin CRM")
 public class Btn1 extends VerticalLayout {
 

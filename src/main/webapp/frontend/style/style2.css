@@ -6,7 +6,12 @@
 input::placeholder{
   color: white;
 }
-
+a{
+    cursor: pointer;
+}
+a:hover{
+    text-decoration:none;
+}
 
 input[type=text]:focus {
   border:none;
@@ -172,6 +177,11 @@ div{
 .inner-items{
     margin-top: 30px;
 }
+.inner-items:hover{
+    cursor:pointer;
+    background-color: #B5E3F8;
+    margin-top: 30px;
+}
 .icon-class{
     height:30px;
     width:30px;
@@ -183,6 +193,15 @@ div{
     width:15px;
     color: #CCCCCC;
 }
+.courselabel{
+    font-size:24px;
+    color: white;
+}
+
+.course1{
+    font-size:16px;
+    color: white;
+}
 .feed{
     height: 20px;
     width: 76px;
@@ -190,13 +209,14 @@ div{
     font-family: Lato;
     font-style: normal;
     font-weight: 500;
-    font-size: 13px;
+    font-size: 16px;
     line-height: 20px;
     /* identical to box height, or 154% */
 
 
     color: #878787;
 }
+
 .center{
     padding: 0 25px 0 25px;
     flex: 1;
@@ -393,7 +413,13 @@ div{
     align-items:center;
 }
 .lowerfirst{
+    cursor:default;
     gap: 10px;
+}
+.lowerfirst:hover{
+    cursor:pointer;
+    gap: 10px;
+    transform: scale(1.3);
 }
 .like-text{
     width: 59.87px;
@@ -506,7 +532,19 @@ div{
    display:flex;
    flex-direction:column;
 }
+.comment-section{
+    display:flex;
+    gap:10px;
+    flex-direction:column;
+    display:none;
+}
 
+.comment-label{
+    font-size:15px;
+    color: black;
+    border: 1px;
+    border-style:groove;
+}
 
 
 /*Media css*/

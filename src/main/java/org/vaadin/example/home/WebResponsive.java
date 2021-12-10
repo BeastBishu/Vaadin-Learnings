@@ -1,23 +1,47 @@
-package org.vaadin.example;
+package org.vaadin.example.home;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.router.Route;
-import org.apache.commons.io.input.TeeInputStream;
+import com.vaadin.flow.router.RouterLayout;
+import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.server.PWA;
+import jdk.Exported;
+import org.vaadin.example.home.components.*;
+
+import java.awt.*;
 
 
+
+@PWA(name = "Vaadin",
+        shortName = "CRM")
+@Route("newweb")
 @StyleSheet("style/style2.css")
-public class WebResponsive extends Div {
+public class WebResponsive extends Div implements RouterLayout {
 
+    Div center;
+    Div myCoursesAnchor;
+    Div activityFeedAnchor;
+    Div exploreAnchor;
     public WebResponsive(){
         Div mainContainer = new Div();
         mainContainer.setClassName("main-container");
-
         mainContainer.add(createNavbar(),baseLayout());
         add(mainContainer);
     }
@@ -52,11 +76,21 @@ public class WebResponsive extends Div {
         Avatar avatar = new Avatar();
         avatar.setImage("/images/avatar.png");
         avatar.setClassName("avatar");
-        Span name = new Span("Dami Soyombo");
-        name.setClassName("name");
-        Icon poly = new Icon(VaadinIcon.CARET_DOWN);
-        poly.setClassName("poly");
-        accountInfo.add(noti,avatar,name,poly);
+        MenuBar menuBar = new MenuBar();
+        MenuItem profile = menuBar.addItem("Bishu KC");
+        profile.getElement().getStyle().set("color","white");
+        SubMenu dropdown = profile.getSubMenu();
+        dropdown.addItem("Profile",menuItemClickEvent -> {
+            Notification notification = Notification.show("Not Implemented");
+
+        });
+        dropdown.addItem("Settings",menuItemClickEvent -> {
+            Notification.show("Not Implemented");
+        });
+        dropdown.addItem("Logout",menuItemClickEvent -> {
+            Notification.show("Not Implemented");
+        });
+        accountInfo.add(noti,avatar,menuBar);
 
 
 
@@ -77,20 +111,24 @@ public class WebResponsive extends Div {
         htmlFlex.setClassName("html-flex");
 
         //left Div
-        Div leftDiv = new Div();
-        leftDiv.setClassName("left");
-
+//        SideMenuPanel sideMenuPanel = new SideMenuPanel();
+        Div sideMenuPanel = new Div();
+        sideMenuPanel.setClassName("left");
         Div leftInner = new Div();
         leftInner.setClassName("left-inner");
 
         Div activityFeed = new Div();
         activityFeed.setClassName("left-items");
         activityFeed.addClassName("inner-items");
+        activityFeedAnchor = new Div();
         Icon icon1 = new Icon(VaadinIcon.BOOKMARK);
         icon1.setClassName("icon-class");
         Span span1 = new Span("Activity Feed");
         span1.setClassName("feed");
-        activityFeed.add(icon1,span1);
+        activityFeedAnchor.add(icon1,span1);
+        /*activityFeedAnchor.add(icon1,span1);
+        activityFeedAnchor.setRoute(CenterDiv.class);*/
+        activityFeed.add(activityFeedAnchor);
 
         Div myCourses = new Div();
         myCourses.setClassName("left-items");
@@ -99,7 +137,9 @@ public class WebResponsive extends Div {
         icon2.setClassName("icon-class");
         Span span2 = new Span("My Courses");
         span2.setClassName("feed");
-        myCourses.add(icon2,span2);
+        myCoursesAnchor = new Div();
+        myCoursesAnchor.add(icon2,span2);
+        myCourses.add(myCoursesAnchor);
 
         Div explore = new Div();
         explore.setClassName("left-items");
@@ -108,7 +148,9 @@ public class WebResponsive extends Div {
         icon3.setClassName("icon-class");
         Span span3 = new Span("Explore");
         span3.setClassName("feed");
-        explore.add(icon3,span3);
+        exploreAnchor = new Div();
+        exploreAnchor.add(icon3,span3);
+        explore.add(exploreAnchor);
 
         Div schools = new Div();
         schools.setClassName("left-items");
@@ -117,7 +159,9 @@ public class WebResponsive extends Div {
         icon4.setClassName("icon-class");
         Span span4 = new Span("Schools");
         span4.setClassName("feed");
-        schools.add(icon4,span4);
+        RouterLink schoolsAnchor = new RouterLink();
+        schoolsAnchor.add(icon4,span4);
+        schools.add(schoolsAnchor);
 
         Div myProfile = new Div();
         myProfile.setClassName("left-items");
@@ -126,7 +170,9 @@ public class WebResponsive extends Div {
         icon5.setClassName("icon-class");
         Span span5 = new Span("My Profile");
         span5.setClassName("feed");
-        myProfile.add(icon5,span5);
+        RouterLink myProfileAnchor = new RouterLink();
+        myProfileAnchor.add(icon5,span5);
+        myProfile.add(myProfileAnchor);
 
         Div ticketManagement = new Div();
         ticketManagement.setClassName("left-items");
@@ -135,7 +181,9 @@ public class WebResponsive extends Div {
         icon6.setClassName("icon-class");
         Span span6 = new Span("Ticket Management");
         span6.setClassName("feed");
-        ticketManagement.add(icon6,span6);
+        RouterLink ticketManagementAnchor = new RouterLink();
+        ticketManagementAnchor.add(icon6,span6);
+        ticketManagement.add(ticketManagementAnchor);
 
         Div settings = new Div();
         settings.setClassName("left-items");
@@ -144,7 +192,9 @@ public class WebResponsive extends Div {
         icon7.setClassName("icon-class");
         Span span7 = new Span("Settings");
         span7.setClassName("feed");
-        settings.add(icon7,span7);
+        RouterLink settingsAnchor = new RouterLink();
+        settingsAnchor.add(icon7,span7);
+        settings.add(settingsAnchor);
 
         Div logout = new Div();
         logout.setClassName("left-items");
@@ -153,13 +203,15 @@ public class WebResponsive extends Div {
         icon8.setClassName("icon-class");
         Span span8 = new Span("Logout");
         span8.setClassName("feed");
-        logout.add(icon8,span8);
+        RouterLink logoutAnchor = new RouterLink();
+        logoutAnchor.add(icon8,span8);
+        logout.add(logoutAnchor);
 
 
         leftInner.add(activityFeed,myCourses,explore,schools,myProfile,ticketManagement,settings,logout);
-        leftDiv.add(leftInner);
+        sideMenuPanel.add(leftInner);
 
-        htmlFlex.add(leftDiv,centerDiv(),right());
+        htmlFlex.add(sideMenuPanel,centerDiv());
         contentContainer.add(htmlFlex);
         bodyContainer.add(contentContainer);
         baseLayout.add(bodyContainer);
@@ -167,9 +219,29 @@ public class WebResponsive extends Div {
     }
 
     private Component centerDiv(){
-        Div center = new Div();
+        center = new Div();
         center.setClassName("center");
 
+        myCoursesAnchor.addClickListener(divClickEvent -> {
+            center.removeAll();
+            center.add(centerDivForMyCourses());
+        });
+        activityFeedAnchor.addClickListener(divClickEvent -> {
+            center.removeAll();
+            center.add(centerDivForActivity());
+        });
+        exploreAnchor.addClickListener(divClickEvent -> {
+            center.removeAll();
+            center.add(centerDivForExplore());
+        });
+
+
+        return center;
+    }
+
+    private Div centerDivForActivity(){
+        center = new Div();
+        center.setClassName("center");
         Div filter = new Div();
         filter.setClassName("filter");
         Span span1 = new Span("Activity Feed");
@@ -182,133 +254,46 @@ public class WebResponsive extends Div {
         rightItems.add(icon1,span2);
 
         filter.add(span1,rightItems);
-        Div firstContent = new Div();
-        firstContent.setClassName("first-content");
-        Div firstText = new Div();
-        firstText.setClassName("firstcontent-entertext");
-        Avatar avatar = new Avatar();
-        avatar.setImage("/images/avatar.png");
-        avatar.setClassName("avatar2");
+        PostInputForm inputForm = new PostInputForm();
 
-        Div titleMainDiv = new Div();
-        Div titleDiv = new Div();
-        titleDiv.setClassName("title-div");
-        Span title = new Span("Title");
-        title.setClassName("firstcontent-title");
-        titleDiv.add(title);
-        Div textDiv = new Div();
-        textDiv.setClassName("text-div");
-        Span enterText = new Span("Enter text here...");
-        enterText.setClassName("firstcontent-inputtext");
-        textDiv.add(enterText);
-        titleMainDiv.add(titleDiv,textDiv);
-        firstText.add(avatar,titleMainDiv);
+        String rawHtml = "<article\n" +
+                "      style=\"\n" +
+                "        width: 300px;\n" +
+                "        border: 2px solid gray;\n" +
+                "        padding: 10px;\n" +
+                "        border-radius: 10px;\n" +
+                "        margin: 5px;\n" +
+                "      \"\n" +
+                "    >\n" +
+                "      <img\n" +
+                "        src=\n" +
+                "\"https://media.geeksforgeeks.org/wp-content/cdn-uploads/20190710102234/download3.png\"\n" +
+                "        alt=\"\"\n" +
+                "        width=\"300\"\n" +
+                "        height=\"250\"\n" +
+                "        class=\"alignnone size-medium wp-image-560930\"\n" +
+                "      />\n" +
+                "      <h1>GeeksforGeeks</h1>\n" +
+                "        \n" +
+                "<p>\n" +
+                "        Sandeep Jain(FOUNDER) An IIT Roorkee alumnus and \n" +
+                "        founder of GeeksforGeeks. Apart from GeeksforGeeks, \n" +
+                "        he has worked with DE Shaw and Co. as a software \n" +
+                "        developer and JIIT Noida as an assistant professor.\n" +
+                "      </p>\n" +
+                "  \n" +
+                "    </article>";
+        NewFeedCard card1 = new NewFeedCard("images/avatar.png", "Bishu KC", "1 hour ago", rawHtml, true, 5, 20);
 
-        Hr hr = new Hr();
-        hr.setClassName("hr");
+        center.add(inputForm, card1);
 
-        Div firstDivLower = new Div();
-        firstDivLower.setClassName("firstdiv-lower");
-        Div leftContent = new Div();
-        leftContent.setClassName("left-content");
-        Icon licon1 = new Icon(VaadinIcon.PICTURE);
-        licon1.setClassName("licon");
-        Icon licon2 = new Icon(VaadinIcon.YOUTUBE);
-        licon2.setClassName("licon");
-        Icon licon3 = new Icon(VaadinIcon.MAP_MARKER);
-        licon3.setClassName("licon");
-        Icon licon4 = new Icon(VaadinIcon.ELLIPSIS_DOTS_H);
-        licon4.setClassName("licon");
-        leftContent.add(licon1,licon2,licon3,licon4);
-
-        Div rightContent = new Div();
-        rightContent.setClassName("right-content");
-        Icon ricon1 = new Icon(VaadinIcon.SMILEY_O);
-        ricon1.setClassName("licon");
-        Button post = new Button("POST");
-        post.setClassName("post-btn");
-        rightContent.add(ricon1,post);
+        inputForm.getPostButton().addClickListener(e-> {
+            NewFeedCard c = new NewFeedCard("images/avatar.png", "Bishu KC", "A seconds ago", "<span>"+inputForm.getTextAreaValue()+" </span>", false, 0, 0);
+            center.addComponentAsFirst(c);
+            center.addComponentAsFirst(inputForm);
+        });
 
 
-        firstDivLower.add(leftContent,rightContent);
-        firstContent.add(firstText,hr,firstDivLower);
-
-        Div secondContent = new Div();
-        secondContent.setClassName("second-content");
-        Div secondTopContent = new Div();
-        secondTopContent.setClassName("secondtop-content");
-        Div secondAvatarContent = new Div();
-        secondAvatarContent.setClassName("second-avatarcontent");
-        Avatar avatar1 = new Avatar();
-        avatar1.setClassName("avatar2");
-        avatar1.setImage("/images/avatar.png");
-        secondAvatarContent.add(avatar1);
-
-        Div avatarLeft = new Div();
-        Div avName = new Div();
-        Span name = new Span("Dami Soyombo");
-        name.setClassName("dami");
-        avName.add(name);
-        Div daysAgo = new Div();
-        daysAgo.setClassName("days-div");
-        Span days = new Span("4 days ago");
-        days.setClassName("days-text");
-        daysAgo.add(days);
-        avatarLeft.add(avName,daysAgo);
-        secondTopContent.add(secondAvatarContent,avatarLeft);
-
-        Hr hr2 = new Hr();
-        hr2.setClassName("hr2");
-
-        Div secondDetail = new Div();
-        secondDetail.setClassName("second-detail");
-        Div secondDetailTitle = new Div();
-        Span secondTitle = new Span("Congratulation to Hamoya Data Science Internship Stage C Winners!");
-        secondTitle.setClassName("second-title");
-        secondDetailTitle.add(secondTitle);
-        Div secondDetailText = new Div();
-        secondDetailText.setClassName("seconddetail-div");
-        Span secondText = new Span("The collapse of the online-advertising market in 2001" +
-                "made marketing on the internet seem even less compelling. Website usability, press" +
-                "releases");
-        secondText.setClassName("second-text");
-        secondDetailText.add(secondText);
-        secondDetail.add(secondDetailTitle,secondDetailText);
-
-        Hr hr3 = new Hr();
-        hr3.setClassName("hr2");
-
-        Div secondLower = new Div();
-        secondLower.setClassName("second-lower");
-        Div lowerContentLeft = new Div();
-        lowerContentLeft.setClassName("lowercontent-left");
-        Div lowerFirst = new Div();
-        lowerFirst.setClassName("lowerfirst");
-        Icon slIcon1 = new Icon(VaadinIcon.HEART);
-        slIcon1.setClassName("licon");
-        Span like = new Span("30 likes");
-        like.setClassName("like-text");
-        lowerFirst.add(slIcon1,like);
-        Div lowerSecond = new Div();
-        lowerSecond.setClassName("lowerfirst");
-        Icon slIcon2 = new Icon(VaadinIcon.COMMENT);
-        slIcon2.setClassName("licon");
-        Span comment = new Span("Comment");
-        comment.setClassName("like-text");
-        lowerSecond.add(slIcon2,comment);
-        Div lowerThird = new Div();
-        lowerThird.setClassName("lowerfirst");
-        Icon slIcon3 = new Icon(VaadinIcon.SHARE);
-        slIcon3.setClassName("licon");
-        Span share = new Span("34");
-        share.setClassName("like-text");
-        lowerThird.add(slIcon3,share);
-        lowerContentLeft.add(lowerFirst,lowerSecond,lowerThird);
-        Span reply = new Span("Reply");
-        reply.setClassName("like-text");
-        secondLower.add(lowerContentLeft,reply);
-
-        secondContent.add(secondTopContent,hr2,secondDetail,hr3,secondLower);
 
         Div midLower = new Div();
         midLower.setClassName("mid-lower");
@@ -321,7 +306,64 @@ public class WebResponsive extends Div {
         Div lowerContent = new Div();
         lowerContent.setClassName("lower-content");
         lower.add(lowerContent);
-        center.add(filter,firstContent,secondContent,midLower,lower);
+        center.add(filter,midLower,lower);
+        return center;
+    }
+
+    private Div centerDivForMyCourses(){
+        center = new Div();
+        center.setClassName("center");
+        Div centerDivCourse = new Div();
+        Label courseLabel = new Label("List of courses:");
+        courseLabel.setClassName("courselabel");
+        Label course1 = new Label("Programming");
+        course1.setClassName("course1");
+        Label course2= new Label("Physics");
+        course2.setClassName("course1");
+        Label course3 = new Label("Mathematics");
+        course3.setClassName("course1");
+        Label course4 = new Label("Art");
+        course4.setClassName("course1");
+        centerDivCourse.add(courseLabel,course1,course2,course3,course4);
+
+        centerDivCourse.getStyle().set("padding","30px");
+        centerDivCourse.getStyle().set("background","grey");
+        centerDivCourse.getStyle().set("height","300px");
+        centerDivCourse.getStyle().set("display","flex");
+        centerDivCourse.getStyle().set("flex-direction","column");
+        centerDivCourse.getStyle().set("gap","30px");
+        centerDivCourse.getStyle().set("margin-left","30px");
+        centerDivCourse.getStyle().set("align-items","center");
+
+        center.add(centerDivCourse);
+        return center;
+    }
+
+    private Div centerDivForExplore(){
+        center = new Div();
+        center.setClassName("center");
+        Div centerDivCourse = new Div();
+        Label courseLabel = new Label("Explore:");
+        courseLabel.setClassName("courselabel");
+        Label course1 = new Label("People");
+        course1.setClassName("course1");
+        Label course2= new Label("Culture");
+        course2.setClassName("course1");
+        Label course3 = new Label("Architect");
+        course3.setClassName("course1");
+
+        centerDivCourse.add(courseLabel,course1,course2,course3);
+
+        centerDivCourse.getStyle().set("padding","30px");
+        centerDivCourse.getStyle().set("background","grey");
+        centerDivCourse.getStyle().set("height","300px");
+        centerDivCourse.getStyle().set("display","flex");
+        centerDivCourse.getStyle().set("flex-direction","column");
+        centerDivCourse.getStyle().set("gap","30px");
+        centerDivCourse.getStyle().set("margin-left","30px");
+        centerDivCourse.getStyle().set("align-items","center");
+
+        center.add(centerDivCourse);
         return center;
     }
     private Component right(){
