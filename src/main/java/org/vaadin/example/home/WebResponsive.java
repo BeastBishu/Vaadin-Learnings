@@ -31,7 +31,7 @@ import java.awt.*;
 
 @PWA(name = "Vaadin",
         shortName = "CRM")
-@Route("newweb")
+@Route("")
 @StyleSheet("style/style2.css")
 public class WebResponsive extends Div implements RouterLayout {
 
